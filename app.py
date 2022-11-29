@@ -1,6 +1,11 @@
 import streamlit as st
 import random
 
+st.set_page_config(
+        page_title="Snowflake Bingo!",
+        page_icon="❄️"
+    )
+
 options = [
     "Analyst not understanding our business", '"Cautious in our guidance"', '"Stable edges"', 'Native Apps', 
     'Performance improvements decrease revenue', 'Investors day', '[Operator botches analyst name]', '[Audio cuts out]', 
