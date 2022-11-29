@@ -22,7 +22,7 @@ options = [
     'Audio issues from an analyst',
     'Analyst names a competitor (bonus points for Databricks)',
     'Snide comments about GCP',
-    'Redirects question to Christian'
+    'Redirects question to Christian',
     'References to tech downturn / layoffs',
     'Stream buffers'
 
