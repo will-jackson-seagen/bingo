@@ -12,7 +12,20 @@ options = [
     'Macro headwinds', 'Exec caught on hot mic', 'Consumption model', "Bring the processing to the data", 'Net revenue retention',
     'question about migration off competitors', 'Python', 'More color', '"Unit economics / operational efficiency"', 'Summit',
     '"Congratulations on a great quarter"', '"Macro environment"', '"Like I said earlier..."', '"Long-term"', 'I told you what I\'m going to tell you',
-    'Strategic investment', '"We\'re not SaaS"', 'Unistore', '<img src="https://share.streamlit.io/-/build/favicon.svg" width="50%"/>'
+    'Strategic investment', '"We\'re not SaaS"', 'Unistore', '<img src="https://share.streamlit.io/-/build/favicon.svg" width="50%"/>',
+    '"Yes" or "No" (one word answer)',
+    'sailing reference',
+    'Snow Day'
+    'Mike: "I\'m not going to tell you that/guide to that"',
+    '<img src="https://uploads-ssl.webflow.com/6152faba362df06f290c14c5/6177d926bba58f6ff9032531_logo%20black.svg"  width="50%">',
+    'Analyst suggests we move to SaaS/subscription model',
+    'Audio issues from an analyst',
+    'Analyst names a competitor (bonus points for Databricks)',
+    'Snide comments about GCP',
+    'Redirects question to Christian'
+    'References to tech downturn / layoffs',
+    'Stream buffers'
+
 ]
 random.shuffle(options)
 
