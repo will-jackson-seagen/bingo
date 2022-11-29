@@ -61,3 +61,4 @@ def make_bingo(options):
 st.title("Snowflake Bingo!")
 st.markdown(make_css(), unsafe_allow_html=True)
 st.markdown(make_bingo(options), unsafe_allow_html=True)
+st.caption("Refresh the page to get a new card!")
