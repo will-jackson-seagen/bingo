@@ -1,1 +1,1 @@
-# snowflake-bingo
+# Snowflake Bingo
