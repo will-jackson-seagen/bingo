@@ -15,7 +15,7 @@ options = [
     'Strategic investment', '"We\'re not SaaS"', 'Unistore', '<img src="https://share.streamlit.io/-/build/favicon.svg" width="50%"/>',
     '"Yes" or "No" (one word answer)',
     'sailing reference',
-    'Snow Day'
+    'Snow Day',
     'Mike: "I\'m not going to tell you that/guide to that"',
     '<img src="https://uploads-ssl.webflow.com/6152faba362df06f290c14c5/6177d926bba58f6ff9032531_logo%20black.svg"  width="50%">',
     'Analyst suggests we move to SaaS/subscription model',
