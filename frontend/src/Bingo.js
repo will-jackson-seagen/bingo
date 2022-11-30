@@ -23,17 +23,22 @@ class Bingo extends StreamlitComponentBase {
 
     bingo() {
         console.log("BINGO!")
-        // Streamlit.setComponentValue(true)
-        // this.setState(prevState => ({ ...prevState, prevState.winner: true}))
-        this.setState(prevState => ({
-            winner: true
-        }));
+
+        // This is not needed since it is set in check_bingo()
+        // this.setState(prevState => ({
+        //     winner: true
+        // }));
+
+        // Method to pass back to Streamlit
+        // This currently causes the Streamlit page to redraw
+        Streamlit.setComponentValue(true)
     }
 
     check_bingo() {
         let is_winner = false
-
         let p = this.state.position
+
+        // Check each row to see if there's a bingo
         for (let r = 0; r < 5; r++) {
             let score = 0
             for (let c = 0; c < 5; c++) {
@@ -44,6 +49,8 @@ class Bingo extends StreamlitComponentBase {
                 is_winner = true
             }
         }
+
+        // Check each column to see if there's a bingo
         for (let c = 0; c < 5; c++) {
             let score = 0
             for (let r = 0; r < 5; r++) {
@@ -55,39 +62,51 @@ class Bingo extends StreamlitComponentBase {
             }
         }
 
+        // Check the diagonals to see if there's a bing
         if ((p[0][0] + p[1][1] + p[2][2] + p[3][3] + p[4][4]) === 5) {
             this.bingo()
             is_winner = true
         }
-
         if ((p[4][0] + p[3][1] + p[2][2] + p[1][3] + p[0][4]) === 5) {
             this.bingo()
             is_winner = true
         }
 
+        // Set the winning state
+        // Also used to unset the winning state
         this.setState(prevState => ({
             winner: is_winner
         }));
     }
 
+
     componentDidMount() {
         Streamlit.setComponentValue(this.props.args["value"])
         Streamlit.setFrameHeight()
+
+        // Re-set the iframe height after 500 ms in case it didn't get set correctly the first time
+        setTimeout(() => {
+            Streamlit.setFrameHeight()
+        }, 500);
     }
 
 
     render() {
+        // Get the center piece image
         const center_piece = this.props.args["center_piece"] === undefined ? 'https://www.snowflake.com/wp-content/themes/snowflake/img/favicons/apple-touch-icon.png' : this.props.args["center_piece"]
+
+        // Get the bingo place options
         const options = this.props.args["bingo_options"] === undefined ? ['B', 'I', 'N', 'G', 'O'] : (this.props.args["bingo_options"])
 
         var incr = 0
         var i = -1
 
         return (<>
-            <Confetti
+            {/* This will show confetti if the win state is true */}
+            {/* <Confetti
                 run={this.state.winner}
                 height={700}
-            />
+            /> */}
             <table>
                 <thead>
                     <tr>
@@ -104,13 +123,16 @@ class Bingo extends StreamlitComponentBase {
                             <tr key={`r${r}`}>
                                 {[0, 0, 0, 0, 0].map((c_val, c) => {
                                     i++
+
+                                    // If the index doesn't exist, reset
                                     if (options[i] === undefined) {
                                         i = -1
                                     }
                                     incr++
                                     return (
                                         <td key={`r${r}c${c}`}>
-                                            {(r === 2 & c === 2) ? <img src={center_piece} width="90%" alt="Free Space" />
+                                            {(r === 2 & c === 2) ?
+                                                <img src={center_piece} width="90%" alt="Free Space" />
                                                 :
                                                 <>
                                                     <input
