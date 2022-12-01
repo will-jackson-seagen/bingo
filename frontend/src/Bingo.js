@@ -3,8 +3,16 @@ import {
     StreamlitComponentBase,
     withStreamlitConnection,
 } from "streamlit-component-lib"
-import React, { ReactNode, useEffect, useState } from "react"
-import Confetti from 'react-confetti'
+import React from "react"
+
+
+const Square = (text) => {
+    try {
+        return (<>{(text.startsWith('http://') | text.startsWith('https://')) ? <img src={text} width="50%" alt="Bingo Option" /> : text}</>)
+    } catch (error) {
+        return (<>Free Space!</>)
+    }
+}
 
 class Bingo extends StreamlitComponentBase {
     constructor(props) {
@@ -102,11 +110,6 @@ class Bingo extends StreamlitComponentBase {
         var i = -1
 
         return (<>
-            {/* This will show confetti if the win state is true */}
-            {/* <Confetti
-                run={this.state.winner}
-                height={700}
-            /> */}
             <table>
                 <thead>
                     <tr>
@@ -148,7 +151,7 @@ class Bingo extends StreamlitComponentBase {
                                                     <label className="btn" htmlFor={`btnControl${incr}`}>
                                                         <img src={center_piece} width="90%" alt="Bingo Marker" />
                                                         <div>
-                                                            {(options[i].startsWith('http://') | options[i].startsWith('https://')) ? <img src={options[i]} width="50%" alt="Bingo Option" /> : options[i]}
+                                                            {Square(options[i])}
                                                         </div>
                                                     </label>
                                                 </>
@@ -161,7 +164,6 @@ class Bingo extends StreamlitComponentBase {
                     })}
                 </tbody>
             </table>
-
         </>)
     }
 }

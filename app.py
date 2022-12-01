@@ -2,6 +2,7 @@ import streamlit as st
 import random
 import os
 import streamlit.components.v1 as components
+import base64
 
 st.set_page_config(
     page_title="Snowflake Bingo!",
@@ -10,6 +11,7 @@ st.set_page_config(
 
 # Default Bingo options
 # Any option starting with http:// or https:// will automatically turn into an image
+default_center_piece = 'https://www.snowflake.com/wp-content/themes/snowflake/img/favicons/apple-touch-icon.png'
 default_options = [
     "Analyst not understanding our business", '"Cautious in our guidance"', '"Stable edges"', 'Native Apps', 
     'Performance improvements decrease revenue', 'Investors day', '[Operator botches analyst name]', '[Audio cuts out]', 
@@ -30,6 +32,8 @@ default_options = [
     'References to tech downturn / layoffs',
     'Stream buffers'
 ]
+options = '\n'.join(default_options)
+win_animation = 'Snowflakes'
 
 # Component Dev Mode
 # Set this to True when running "npm run start"
@@ -44,16 +48,44 @@ else:
 
     bingo_component = components.declare_component("bingo_component", path=build_dir)
 
-st.title("Snowflake Bingo!")
 
-center_piece = 'https://www.snowflake.com/wp-content/themes/snowflake/img/favicons/apple-touch-icon.png'
-options = '\n'.join(default_options)
-win_animation = 'Snowflakes'
+def shuffle_card():
+    seed = random.randint(0,1000)
+    st.experimental_set_query_params(
+        seed=seed
+    )
+    st.session_state['seed'] = seed
+
+
+params = st.experimental_get_query_params()
+
+# Seed is used to make the bingo pieces shuffle the same way every time
+if "s" not in params:
+    st.session_state['seed'] = random.randint(0,1000)    
+else:
+    st.session_state['seed'] = params["s"][0]
+
+# "v" represent the specific bingo piece values
+if "v" not in params:
+    bingo_options = '\n'.join(default_options)
+else:
+    bingo_options = base64.b64decode(params["v"][0].encode("ascii")).decode("ascii")
+
+# "c" represents the center piece
+if "c" not in params:
+    center_piece = default_center_piece
+else:
+    center_piece = base64.b64decode(params["c"][0].encode("ascii")).decode("ascii")
+
+##################################################################################
+## Start Output
+
+st.title("Snowflake Bingo!")
 
 with st.expander("Settings"):
     with st.form(key="settings"):
-        center_piece = st.text_input('Center Piece', value='https://www.snowflake.com/wp-content/themes/snowflake/img/favicons/apple-touch-icon.png')
-        bingo_options = st.text_area("Bingo Options", '\n'.join(default_options), help="One line per bingo piece")
+        center_piece = st.text_input('Center Piece', value=center_piece)
+        bingo_options = st.text_area("Bingo Options", bingo_options, help="One line per bingo piece")
 
         # Selector to choose which Bingo Animation to use
         win_animation = st.selectbox("Bingo Animation", [
@@ -63,21 +95,26 @@ with st.expander("Settings"):
 
         st.form_submit_button("Apply")
 
-bingo_options = bingo_options.splitlines()
+# Store params in url
+st.experimental_set_query_params(
+    s=st.session_state['seed'],
+    v=base64.b64encode(bingo_options.encode("ascii")),
+    c=base64.b64encode(center_piece.encode("ascii"))
+)
 
-# Use a session to store a seed for shuffling the options
-if 'seed' not in st.session_state:
-    st.session_state['seed'] = random.randint(0,1000)
+bingo_options = bingo_options.splitlines()
 
 # Use the seed to always shuffle the same way
 random.Random(st.session_state['seed']).shuffle(bingo_options)
 
+# Use custom component to draw Bingo Board
 # Use key to prevent component from redrawing
 is_bingo = bingo_component(center_piece=center_piece, bingo_options=bingo_options, key="bingo_time")
 
-st.caption("Refresh the page to get a new card!")
+st.button("Get a new card!", on_click=shuffle_card)
 st.caption(f"Streamilt v:{st.__version__}")
 
+# If the custom component returns true, then show Win Animation!
 if(is_bingo == True):
     if(win_animation=="Balloons"):
         st.balloons()

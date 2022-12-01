@@ -13,5 +13,11 @@ image
 
 [✅] Use native Streamlit Animation
 
+[✅] Persist shuffle order in url
+
+[✅] Persist custom center piece in url
+
+[✅] Persist bingo options in url
+
 ## Wish List
 [ ] More/better documentation
