@@ -30,7 +30,8 @@ default_options = [
     'Snide comments about GCP',
     'Redirects question to Christian',
     'References to tech downturn / layoffs',
-    'Stream buffers'
+    'Stream buffers',
+    'The guidance is the guidance'
 ]
 options = '\n'.join(default_options)
 win_animation = 'Snowflakes'
