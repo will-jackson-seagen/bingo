@@ -43,6 +43,9 @@ class Bingo extends StreamlitComponentBase {
     }
 
     check_bingo() {
+        // Re-set the iframe height just because
+        Streamlit.setFrameHeight()
+
         let is_winner = false
         let p = this.state.position
 
