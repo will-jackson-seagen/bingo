@@ -8,9 +8,15 @@ import React from "react"
 
 const Square = (text) => {
     try {
-        return (<>{(text.startsWith('http://') | text.startsWith('https://')) ? <img src={text} width="50%" alt="Bingo Option" /> : text}</>)
+        if ((text.startsWith('http://') | text.startsWith('https://'))) {
+            return (<div><img src={text} width="50%" alt="Bingo Option" /></div>)
+        } else if (text.length > 100) {
+            return (<div style={{ fontSize: "0.85em" }}>{text}</div>)
+        } else {
+            return (<div>{text}</div>)
+        }
     } catch (error) {
-        return (<>Free Space!</>)
+        return (<div>Free Space!</div>)
     }
 }
 
@@ -153,9 +159,7 @@ class Bingo extends StreamlitComponentBase {
                                                     />
                                                     <label className="btn" htmlFor={`btnControl${incr}`}>
                                                         <img src={center_piece} width="90%" alt="Bingo Marker" />
-                                                        <div>
-                                                            {Square(options[i])}
-                                                        </div>
+                                                        {Square(options[i])}
                                                     </label>
                                                 </>
                                             }
